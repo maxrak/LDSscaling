@@ -19,9 +19,11 @@ LDSscaling
 
 ## Usage
 
+```bash
 cd <LDSscaling>
 scripts/get.sh <Conf> 
 scripts/stats.sh <Conf>
+```
 
 * get.sh: Create a folder in data with name conf where the global_stat.json from gatling will be stored and renamed
 * stats.sh: Add to a data/stats.csv file all info from the conf.
