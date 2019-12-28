@@ -1,4 +1,4 @@
-##LDSscaling
+# LDSscaling
 Recover data from remote gatling, collect them locally and produces a local csv
 
 ## Requirements
