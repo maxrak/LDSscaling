@@ -19,7 +19,7 @@ do
 		KO=$(eval $KOcmd)
 		Percmd="bc -l <<< \"100*$KO/$Nr\" "
 		Per=$(eval $Percmd)
-		OUTcmd="echo $CONF , $profile , $cuser , $rate , $RT , $KO , $Nr >>data/stats.csv"
+		OUTcmd="echo $CONF , $profile , $cuser , $rate , $RT , $KO , $Nr , $Per >>data/stats.csv"
 		eval $OUTcmd
 	done
 done
