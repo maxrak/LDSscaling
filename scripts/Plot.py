@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import costs as costs
 from scipy.interpolate import splrep, splev
 
 from pathlib import Path
 base_dir = str(Path().resolve())
-Conf=['1WPmedium_1DB ','2WPmedium_1DB ','3WPmedium_1DB ','1WPlarge_1DB ']#,'1WPmedium_1DBmedium ']
+Conf=['1WPmedium_1DB ','2WPmedium_1DB ','3WPmedium_1DB ','1WPlarge_1DB ','1WPmedium_1DBmedium ','2WPmedium_1DBmedium ','3WPmedium_1DBmedium ']
+CostTable={'medium':0.0288,'large':0.0576,'xlarge':0.1152,'xxlarge':0.2304,' ':0.2304}
 colors=['bo','ro','go','mo','co','yo','ko']
 class Plot():
 
@@ -76,7 +78,7 @@ def plot_KO(Conf, profile, df ):
     for i in range(length): 
         df2 = df.loc[(df['Conf'] == Conf[i]) & (df['profile'] == profile)]
         z = df2['Cuser']
-        h = df2['KO']
+        h = df2['%KO']
         pd.to_numeric(df2['KO'])
         z = z.values.tolist()
         h = h.values.tolist()

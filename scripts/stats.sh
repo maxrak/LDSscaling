@@ -9,17 +9,22 @@ for profile in author editor shopmanager
 do
 	for cuser in 0020 0040 0060 0080 0100 0120 0140 0160 0180 0200 0220 0240 0260 0280 0300 0320 0340 0360 0380 0400 0420 0440 0460  0480 0500
 	do
-		ratecmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" meanNumberOfRequestsPerSecond.total" 
-		RTcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" meanResponseTime.total" 
-		Nrcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" numberOfRequests.total"
-		KOcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" numberOfRequests.ko"
-		rate=$(eval $ratecmd)
-		RT=$(eval $RTcmd)
-		Nr=$(eval $Nrcmd)
-		KO=$(eval $KOcmd)
-		Percmd="bc -l <<< \"100*$KO/$Nr\" "
-		Per=$(eval $Percmd)
-		OUTcmd="echo $CONF , $profile , $cuser , $rate , $RT , $KO , $Nr , $Per >>data/stats.csv"
-		eval $OUTcmd
+		filename="data/"$CONF"/stat_"$profile""$cuser"concurrentusers"
+		if [ -f $filename ]; then
+			ratecmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" meanNumberOfRequestsPerSecond.total" 
+			RTcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" meanResponseTime.total" 
+			Nrcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" numberOfRequests.total"
+			KOcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" numberOfRequests.ko"
+			rate=$(eval $ratecmd)
+			RT=$(eval $RTcmd)
+			Nr=$(eval $Nrcmd)
+			KO=$(eval $KOcmd)
+			Percmd="bc -l <<< \"100*$KO/$Nr\" "
+			Per=$(eval $Percmd)
+			OUTcmd="echo $CONF , $profile , $cuser , $rate , $RT , $KO , $Nr , $Per >>data/stats.csv"
+			eval $OUTcmd
+		else 
+			echo "Missing file "$filename
+		fi
 	done
 done
