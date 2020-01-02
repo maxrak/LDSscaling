@@ -6,6 +6,7 @@ from scipy.interpolate import splrep, splev
 from pathlib import Path
 base_dir = str(Path().resolve())
 colors=['bo','ro','go','mo','co','yo','ko']
+colorsl=['b','r','g','m','c','y','k']
 class Plot():
 
 	def __init__(self, df, ConfTable, CostTable, Profiles, costs):
@@ -31,13 +32,13 @@ class Plot():
 			df2 = df.loc[(df['Conf'] == Conf[i]) & (df['profile'] == profile)]
 			z = df2['Cuser']
 			h = df2['RT']
-			pd.to_numeric(df2['RT'])
+			#pd.to_numeric(df2['RT'])
 			z = z.values.tolist()
 			h = h.values.tolist()
 			bspl1 = splrep(z, h, s=5)
 			bspl_z = splev(z, bspl1)
 			plt.plot(z, h, colors[i], label=Conf[i])
-			plt.plot(z, bspl_z)
+			plt.plot(z, bspl_z,colorsl[i])
 
 		plt.legend(loc="upper left")
 		plt.xlabel('Cuser')
@@ -59,7 +60,7 @@ class Plot():
 			bspl1 = splrep(z, h, s=5)
 			bspl_z = splev(z, bspl1)
 			plt.plot(z, h, colors[i], label=Conf[i])
-			plt.plot(z, bspl_z)
+			plt.plot(z, bspl_z,colorsl[i])
 
 		plt.legend(loc="upper left")
 		plt.xlabel('Cuser')
@@ -81,7 +82,7 @@ class Plot():
 			bspl1 = splrep(z, h, s=5)
 			bspl_z = splev(z, bspl1)
 			plt.plot(z, h, colors[i], label=Conf[i])
-			plt.plot(z, bspl_z)
+			plt.plot(z, bspl_z,colorsl[i])
 
 		plt.legend(loc="upper left")
 		plt.xlabel('Cuser')
@@ -104,8 +105,8 @@ class Plot():
 			h = h.values.tolist()
 			bspl1 = splrep(z, h, s=5)
 			bspl_z = splev(z, bspl1)
-			plt.plot(z, h, colors[i], label=Conf[i])
-			plt.plot(z, bspl_z)
+			#plt.plot(z, h, colors[i], label=Conf[i])
+			plt.plot(z, bspl_z, colorsl[i], label=Conf[i])
 
 		plt.legend(loc="upper right")
 		plt.xlabel('Cuser')
