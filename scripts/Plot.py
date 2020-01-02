@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np 
 import pandas as pd
 import costs as costs
 from scipy.interpolate import splrep, splev
@@ -19,10 +20,11 @@ class Plot():
 	def evaluate(self):
 		length = len(self.Profiles)
 		for i in range(length):
-			self.plot_RT(self.Conf,self.Profiles[i], self.df)
-			self.plot_Rate(self.Conf,self.Profiles[i], self.df)
-			self.plot_KO(self.Conf,self.Profiles[i], self.df)
-			self.plot_CostKuser(self.Conf,self.Profiles[i], self.df)
+			#self.plot_RT(self.Conf,self.Profiles[i], self.df)
+			#self.plot_Rate(self.Conf,self.Profiles[i], self.df)
+			#self.plot_KO(self.Conf,self.Profiles[i], self.df)
+			#self.plot_CostKuser(self.Conf,self.Profiles[i], self.df)
+			self.plot_MAR(self.Conf,self.Profiles[i], self.df)
 
 
 	def plot_RT(self, Conf, profile, df ):
@@ -76,7 +78,7 @@ class Plot():
 			df2 = df.loc[(df['Conf'] == Conf[i]) & (df['profile'] == profile)]
 			z = df2['Cuser']
 			h = df2['%KO']
-			pd.to_numeric(df2['KO'])
+			pd.to_numeric(df2['%KO'])
 			z = z.values.tolist()
 			h = h.values.tolist()
 			bspl1 = splrep(z, h, s=5)
@@ -91,7 +93,6 @@ class Plot():
 		plt.savefig(base_dir + '/output/plot_'+profile.strip()+'KO.png', bbox_inches='tight', dpi=500)
 		plt.clf()
 
-#Ancora da calcolare
 	def plot_CostKuser(self, Conf, profile, df ):
 		length = len(Conf)
 		for i in range(length): 
@@ -114,4 +115,31 @@ class Plot():
 		plt.title(profile+' - Cost per Kusers')
 		plt.savefig(base_dir + '/output/plot_'+profile.strip()+'cost.png', bbox_inches='tight', dpi=500)
 		plt.clf()		
+
+	def plot_MAR(self, Conf, profile, df ):
+		length = len(Conf)
+		mar5=[]
+		for i in range(length): 
+			print "Plot MAR for "+Conf[i]+" on"+profile
+			df2 = df.loc[(df['Conf'] == Conf[i]) & (df['profile'] == profile)]
+			r = df2['rate']
+			ko = df2['%KO']
+			r=r.values.tolist()
+			ko=ko.values.tolist()
+			mar5.append(r[0])
+			for j in range(len(ko)):
+				if ko[j]<5:
+					mar5[i]=r[j]
+
+		#w=3
+		x_axis = np.arange(0, length)
+		bar=plt.bar(x_axis,mar5)
+		plt.xticks(x_axis+0.5,Conf,rotation='vertical');
+		plt.ylabel('rate')
+		for idx, rect in enumerate(bar):
+			height=rect.get_height()
+		 	plt.text(rect.get_x() + rect.get_width()/2., 1.05*height, round(mar5[idx],2), ha='center', va='bottom', rotation=0)
+		plt.title(profile+' - MAR 5%')
+		plt.savefig(base_dir + '/output/plot_'+profile.strip()+'MAR.png', bbox_inches='tight', dpi=500)
+		plt.clf()
 
