@@ -8,11 +8,12 @@ base_dir = str(Path().resolve())
 colors=['bo','ro','go','mo','co','yo','ko']
 class Plot():
 
-	def __init__(self, df, ConfTable, CostTable, Profiles):
+	def __init__(self, df, ConfTable, CostTable, Profiles, costs):
 		self.df = df
 		self.Conf=ConfTable
 		self.Costs=CostTable
 		self.Profiles=Profiles
+		self.costs = costs
 
 	def evaluate(self):
 		length = len(self.Profiles)
@@ -20,6 +21,7 @@ class Plot():
 			self.plot_RT(self.Conf,self.Profiles[i], self.df)
 			self.plot_Rate(self.Conf,self.Profiles[i], self.df)
 			self.plot_KO(self.Conf,self.Profiles[i], self.df)
+			self.plot_CostKuser(self.Conf,self.Profiles[i], self.df)
 
 
 	def plot_RT(self, Conf, profile, df ):
@@ -89,14 +91,15 @@ class Plot():
 		plt.clf()
 
 #Ancora da calcolare
-	def plot_CostKuser():
+	def plot_CostKuser(self, Conf, profile, df ):
 		length = len(Conf)
 		for i in range(length): 
 			print "Plot Cost per Kusers for "+Conf[i]+" on"+profile
 			df2 = df.loc[(df['Conf'] == Conf[i]) & (df['profile'] == profile)]
+			cost=self.costs.costFromString(Conf[i].strip())
 			z = df2['Cuser']
-			h = df2['%KO']
-			pd.to_numeric(df2['KO'])
+			r = df2['rate']
+			h = cost/(r*3.6)
 			z = z.values.tolist()
 			h = h.values.tolist()
 			bspl1 = splrep(z, h, s=5)
@@ -104,10 +107,10 @@ class Plot():
 			plt.plot(z, h, colors[i], label=Conf[i])
 			plt.plot(z, bspl_z)
 
-		plt.legend(loc="upper left")
+		plt.legend(loc="upper right")
 		plt.xlabel('Cuser')
-		plt.ylabel('Ko% ')
-		plt.title(profile+' - KO%')
-		plt.savefig(base_dir + '/output/plot_'+profile.strip()+'KO.png', bbox_inches='tight', dpi=500)
+		plt.ylabel('Cost per Kusers ')
+		plt.title(profile+' - Cost per Kusers')
+		plt.savefig(base_dir + '/output/plot_'+profile.strip()+'cost.png', bbox_inches='tight', dpi=500)
 		plt.clf()		
 

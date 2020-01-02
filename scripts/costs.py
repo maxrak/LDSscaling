@@ -11,12 +11,12 @@ class costs():
 		return [nWP,fWP,nDB,fDB]
 
 	def cost(self, ConfVector):
-		print ConfVector[0]
 		cWP=float(ConfVector[0])*float(self.CostTable[ConfVector[1]])
 		cDB=float(ConfVector[2])*float(self.CostTable[ConfVector[3]])
 		return cWP+cDB
 
 	def costFromString(self, Config):
+		#print Config
 		confvector=self.confConverter(Config)
 		return self.cost(confvector)
 #conf=confConverter(Conf[0])
