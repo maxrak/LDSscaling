@@ -7,6 +7,7 @@ else
 fi
 TARGET="http://193.206.108.215/output/results_Concurrent_User/results_"$CONF"/"
 DATA="data/"$CONF"/"
+rm -f $DATA"/*"
 wget -P $DATA $TARGET
 cat $DATA/index.html |grep href | awk '{print $5}'|awk -F"\"" '{print $2}' | while read line 
 do
