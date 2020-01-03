@@ -5,7 +5,7 @@ then
 else
       CONF=$1
 fi
-for profile in author editor shopmanager
+for profile in author editor shopmanager userreader
 do
 	for cuser in 0020 0040 0060 0080 0100 0120 0140 0160 0180 0200 0220 0240 0260 0280 0300 0320 0340 0360 0380 0400 0420 0440 0460  0480 0500
 	do

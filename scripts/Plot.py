@@ -20,10 +20,10 @@ class Plot():
 	def evaluate(self):
 		length = len(self.Profiles)
 		for i in range(length):
-			#self.plot_RT(self.Conf,self.Profiles[i], self.df)
-			#self.plot_Rate(self.Conf,self.Profiles[i], self.df)
-			#self.plot_KO(self.Conf,self.Profiles[i], self.df)
-			#self.plot_CostKuser(self.Conf,self.Profiles[i], self.df)
+			self.plot_RT(self.Conf,self.Profiles[i], self.df)
+			self.plot_Rate(self.Conf,self.Profiles[i], self.df)
+			self.plot_KO(self.Conf,self.Profiles[i], self.df)
+			self.plot_CostKuser(self.Conf,self.Profiles[i], self.df)
 			self.plot_MAR(self.Conf,self.Profiles[i], self.df)
 
 
@@ -104,15 +104,20 @@ class Plot():
 			h = cost/(r*3.6)
 			z = z.values.tolist()
 			h = h.values.tolist()
+			r = r.values.tolist()
 			bspl1 = splrep(z, h, s=5)
 			bspl_z = splev(z, bspl1)
+			#bspl2 = splrep(r,h,s=5)
+			#bspl_r2 = splev(r,bspl2)
 			#plt.plot(z, h, colors[i], label=Conf[i])
-			plt.plot(z, bspl_z, colorsl[i], label=Conf[i])
+			#plt.plot(z, bspl_z, colorsl[i], label=Conf[i])
+			#plt.plot(r, h, colors[i], label=Conf[i])
+			plt.plot(r, h, colorsl[i], label=Conf[i])
 
 		plt.legend(loc="upper right")
-		plt.xlabel('Cuser')
-		plt.ylabel('Cost per Kusers ')
-		plt.title(profile+' - Cost per Kusers')
+		plt.xlabel('rate (Req/s)')
+		plt.ylabel('Cost per K requests ')
+		plt.title(profile+' - Cost per K requests')
 		plt.savefig(base_dir + '/output/plot_'+profile.strip()+'cost.png', bbox_inches='tight', dpi=500)
 		plt.clf()		
 
