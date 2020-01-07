@@ -12,16 +12,18 @@ do
 		filename="data/"$CONF"/stat_"$profile""$cuser"concurrentusers"
 		if [ -f $filename ]; then
 			ratecmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" meanNumberOfRequestsPerSecond.total" 
-			RTcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" meanResponseTime.total" 
+			RTcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" meanResponseTime.ok" 
 			Nrcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" numberOfRequests.total"
 			KOcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" numberOfRequests.ko"
+			StdDevcmd="jp -f \"data/\"$CONF\"/stat_\"$profile\"\"$cuser\"concurrentusers\" standardDeviation.ok"
 			rate=$(eval $ratecmd)
 			RT=$(eval $RTcmd)
 			Nr=$(eval $Nrcmd)
 			KO=$(eval $KOcmd)
 			Percmd="bc -l <<< \"100*$KO/$Nr\" "
 			Per=$(eval $Percmd)
-			OUTcmd="echo $CONF , $profile , $cuser , $rate , $RT , $KO , $Nr , $Per >>data/stats.csv"
+			StdDev=$(eval $StdDevcmd)
+			OUTcmd="echo $CONF , $profile , $cuser , $rate , $RT , $KO , $Nr , $Per , $StdDev >>data/stats.csv"
 			eval $OUTcmd
 		else 
 			echo "Missing file "$filename

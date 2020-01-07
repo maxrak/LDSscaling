@@ -11,8 +11,8 @@ class costs():
 		return [nWP,fWP,nDB,fDB]
 
 	def cost(self, ConfVector):
-		cWP=float(ConfVector[0])*float(self.CostTable[ConfVector[1]])
-		cDB=float(ConfVector[2])*float(self.CostTable[ConfVector[3]])
+		cWP=float(ConfVector[0])*float(self.CostTable[ConfVector[1].strip()])
+		cDB=float(ConfVector[2])*float(self.CostTable[ConfVector[3].strip()])
 		return cWP+cDB
 
 	def costFromString(self, Config):
