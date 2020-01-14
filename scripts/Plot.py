@@ -9,6 +9,7 @@ from pathlib import Path
 base_dir = str(Path().resolve())
 colors=['bo','ro','go','mo','co','yo','ko']
 colorsl=['b','r','g','m','c','y','k']
+colorb=['g','g','g','g','g','y','k']
 class Plot():
 
 	def __init__(self, df, ConfTable, CostTable, Profiles, costs):
@@ -212,20 +213,21 @@ class Plot():
 
 		#w=3
 		x_axis = np.arange(0, length)
-		bar=plt.barh(x_axis,mar5)
+		bar=plt.barh(x_axis,mar5,color='k')
 		plt.yticks(x_axis+0.5,Conf,rotation='horizontal');
 		plt.xlabel('rate')
 		for idx, rect in enumerate(bar):
 			width=rect.get_width()
 			cost=round(self.costs.costFromString(Conf[idx]),4)
 			scost=str(cost)+' $/h'
-		 	plt.text(1.07*width,rect.get_y() + rect.get_height()/2., round(mar5[idx],2), ha='center', va='bottom', rotation=0)
-		 	plt.text( 0.5*width, rect.get_y() + rect.get_height()/2., scost, ha='center', va='bottom', rotation=0, color='white')
+		 	plt.text(width+10,rect.get_y() + rect.get_height()/2., round(mar5[idx],2), ha='center', va='bottom', rotation=0)
+		 	plt.text( 0.5*width, rect.get_y() + rect.get_height()/2., scost, ha='center', va='bottom', rotation=0, color='white',fontweight='bold',fontsize=14)
 
 		plt.title(profile+' - MAR 5%')
 		plt.savefig(base_dir + '/output/plot_'+profile.strip()+'MAR.png', bbox_inches='tight', dpi=500)
 		plt.clf()
 
+#How MAR changes varying the requested thresh
 	def plot_MARvar(self, Conf, profile, df ):
 		length = len(Conf)
 		for i in range(length): 
